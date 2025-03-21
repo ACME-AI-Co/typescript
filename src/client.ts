@@ -21,12 +21,12 @@ import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import {
-  FileSearchWithinParams,
-  FileSearchWithinResponse,
-  FileStatusListParams,
-  FileStatusListResponse,
-  FileUploadParams,
-  FileUploadResponse,
+  FileFileCreateParams,
+  FileFileCreateResponse,
+  FileFileSearchParams,
+  FileFileSearchResponse,
+  FileFileslistParams,
+  FileFileslistResponse,
   Files,
 } from './resources/files';
 import { readEnv } from './internal/utils/env';
@@ -690,11 +690,11 @@ export declare namespace AcmeAISDK {
 
   export {
     Files as Files,
-    type FileSearchWithinResponse as FileSearchWithinResponse,
-    type FileStatusListResponse as FileStatusListResponse,
-    type FileUploadResponse as FileUploadResponse,
-    type FileSearchWithinParams as FileSearchWithinParams,
-    type FileStatusListParams as FileStatusListParams,
-    type FileUploadParams as FileUploadParams,
+    type FileFileCreateResponse as FileFileCreateResponse,
+    type FileFileSearchResponse as FileFileSearchResponse,
+    type FileFileslistResponse as FileFileslistResponse,
+    type FileFileCreateParams as FileFileCreateParams,
+    type FileFileSearchParams as FileFileSearchParams,
+    type FileFileslistParams as FileFileslistParams,
   };
 }
