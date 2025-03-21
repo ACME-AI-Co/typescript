@@ -9,14 +9,22 @@ import { path } from '../internal/utils/path';
 
 export class Files extends APIResource {
   /**
+   * Upload a file for processing with AI. The file will be analyzed and made
+   * searchable using natural language queries.
+   */
+  fileCreate(body: FileFileCreateParams, options?: RequestOptions): APIPromise<FileFileCreateResponse> {
+    return this._client.post('/files/', multipartFormRequestOptions({ body, ...options }, this._client));
+  }
+
+  /**
    * Search for content within a processed file using natural language queries.
    * Returns relevant passages and their context.
    */
-  searchWithin(
+  fileSearch(
     fileID: string,
-    query: FileSearchWithinParams,
+    query: FileFileSearchParams,
     options?: RequestOptions,
-  ): APIPromise<FileSearchWithinResponse> {
+  ): APIPromise<FileFileSearchResponse> {
     return this._client.get(path`/files/${fileID}/search`, { query, ...options });
   }
 
@@ -24,23 +32,32 @@ export class Files extends APIResource {
    * Retrieve the processing status of files. Can be filtered by status and sorted by
    * upload time.
    */
-  statusList(
-    query: FileStatusListParams | null | undefined = {},
+  fileslist(
+    query: FileFileslistParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FileStatusListResponse> {
+  ): APIPromise<FileFileslistResponse> {
     return this._client.get('/files/', { query, ...options });
-  }
-
-  /**
-   * Upload a file for processing with AI. The file will be analyzed and made
-   * searchable using natural language queries.
-   */
-  upload(body: FileUploadParams, options?: RequestOptions): APIPromise<FileUploadResponse> {
-    return this._client.post('/files/', multipartFormRequestOptions({ body, ...options }, this._client));
   }
 }
 
-export interface FileSearchWithinResponse {
+export interface FileFileCreateResponse {
+  /**
+   * Unique identifier for the file
+   */
+  file_id?: string;
+
+  /**
+   * Current processing status
+   */
+  status?: 'pending' | 'processing';
+
+  /**
+   * Time the file was uploaded
+   */
+  upload_time?: string;
+}
+
+export interface FileFileSearchResponse {
   /**
    * Unique identifier of the searched file
    */
@@ -49,14 +66,14 @@ export interface FileSearchWithinResponse {
   /**
    * File metadata (only included if requested)
    */
-  metadata?: FileSearchWithinResponse.Metadata;
+  metadata?: FileFileSearchResponse.Metadata;
 
   /**
    * The search query used
    */
   query?: string;
 
-  results?: Array<FileSearchWithinResponse.Result>;
+  results?: Array<FileFileSearchResponse.Result>;
 
   /**
    * Total number of results found
@@ -64,7 +81,7 @@ export interface FileSearchWithinResponse {
   total_results?: number;
 }
 
-export namespace FileSearchWithinResponse {
+export namespace FileFileSearchResponse {
   /**
    * File metadata (only included if requested)
    */
@@ -163,8 +180,8 @@ export namespace FileSearchWithinResponse {
   }
 }
 
-export interface FileStatusListResponse {
-  files?: Array<FileStatusListResponse.File>;
+export interface FileFileslistResponse {
+  files?: Array<FileFileslistResponse.File>;
 
   /**
    * Maximum number of files returned
@@ -182,7 +199,7 @@ export interface FileStatusListResponse {
   total?: number;
 }
 
-export namespace FileStatusListResponse {
+export namespace FileFileslistResponse {
   export interface File {
     /**
      * Time processing was completed (if applicable)
@@ -221,24 +238,35 @@ export namespace FileStatusListResponse {
   }
 }
 
-export interface FileUploadResponse {
+export interface FileFileCreateParams {
   /**
-   * Unique identifier for the file
+   * The file to upload
    */
-  file_id?: string;
+  file: Uploadable;
 
   /**
-   * Current processing status
+   * Optional description of the file
    */
-  status?: 'pending' | 'processing';
+  description?: string;
 
-  /**
-   * Time the file was uploaded
-   */
-  upload_time?: string;
+  processing_options?: FileFileCreateParams.ProcessingOptions;
 }
 
-export interface FileSearchWithinParams {
+export namespace FileFileCreateParams {
+  export interface ProcessingOptions {
+    /**
+     * Preferred language for processing
+     */
+    language?: string;
+
+    /**
+     * Enable OCR for image-based documents
+     */
+    ocr?: boolean;
+  }
+}
+
+export interface FileFileSearchParams {
   /**
    * Natural language search query
    */
@@ -260,7 +288,7 @@ export interface FileSearchWithinParams {
   max_results?: number;
 }
 
-export interface FileStatusListParams {
+export interface FileFileslistParams {
   /**
    * Maximum number of files to return
    */
@@ -287,41 +315,13 @@ export interface FileStatusListParams {
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
-export interface FileUploadParams {
-  /**
-   * The file to upload
-   */
-  file: Uploadable;
-
-  /**
-   * Optional description of the file
-   */
-  description?: string;
-
-  processing_options?: FileUploadParams.ProcessingOptions;
-}
-
-export namespace FileUploadParams {
-  export interface ProcessingOptions {
-    /**
-     * Preferred language for processing
-     */
-    language?: string;
-
-    /**
-     * Enable OCR for image-based documents
-     */
-    ocr?: boolean;
-  }
-}
-
 export declare namespace Files {
   export {
-    type FileSearchWithinResponse as FileSearchWithinResponse,
-    type FileStatusListResponse as FileStatusListResponse,
-    type FileUploadResponse as FileUploadResponse,
-    type FileSearchWithinParams as FileSearchWithinParams,
-    type FileStatusListParams as FileStatusListParams,
-    type FileUploadParams as FileUploadParams,
+    type FileFileCreateResponse as FileFileCreateResponse,
+    type FileFileSearchResponse as FileFileSearchResponse,
+    type FileFileslistResponse as FileFileslistResponse,
+    type FileFileCreateParams as FileFileCreateParams,
+    type FileFileSearchParams as FileFileSearchParams,
+    type FileFileslistParams as FileFileslistParams,
   };
 }
