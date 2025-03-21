@@ -2,10 +2,10 @@
 
 export {
   Files,
-  type FileSearchWithinResponse,
-  type FileStatusListResponse,
-  type FileUploadResponse,
-  type FileSearchWithinParams,
-  type FileStatusListParams,
-  type FileUploadParams,
+  type FileFileCreateResponse,
+  type FileFileSearchResponse,
+  type FileFileslistResponse,
+  type FileFileCreateParams,
+  type FileFileSearchParams,
+  type FileFileslistParams,
 } from './files';
