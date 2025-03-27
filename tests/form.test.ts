@@ -1,5 +1,5 @@
 import { multipartFormRequestOptions, createForm } from 'acme-ai-sdk/internal/uploads';
-import { toFile } from 'acme-ai-sdk/uploads';
+import { toFile } from 'acme-ai-sdk/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {
