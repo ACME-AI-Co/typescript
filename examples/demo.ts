@@ -9,8 +9,8 @@ async function main() {
 
   while (true) {
     // loop through files to see which one matches our file
-    const files = await client.files.fileslist();
-    const found = files.find((f) => f.file_id === file.file_id);
+    const filesListResponse = await client.files.fileslist();
+    const found = filesListResponse.find((f) => f.file_id === file.file_id);
     if (found && found.status === 'completed') {
       break;
     }
