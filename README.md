@@ -29,13 +29,9 @@ const client = new AcmeAISDK({
   bearerToken: process.env['ACME_AI_SDK_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const response = await client.files.fileCreate({ file: fs.createReadStream('path/to/file') });
+const response = await client.files.fileCreate({ file: fs.createReadStream('path/to/file') });
 
-  console.log(response.file_id);
-}
-
-main();
+console.log(response.file_id);
 ```
 
 ### Request & Response types
@@ -50,12 +46,8 @@ const client = new AcmeAISDK({
   bearerToken: process.env['ACME_AI_SDK_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: AcmeAISDK.FileFileCreateParams = { file: fs.createReadStream('path/to/file') };
-  const response: AcmeAISDK.FileFileCreateResponse = await client.files.fileCreate(params);
-}
-
-main();
+const params: AcmeAISDK.FileFileCreateParams = { file: fs.createReadStream('path/to/file') };
+const response: AcmeAISDK.FileFileCreateResponse = await client.files.fileCreate(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -97,24 +89,20 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const response = await client.files
-    .fileCreate({ file: fs.createReadStream('path/to/file') })
-    .catch(async (err) => {
-      if (err instanceof AcmeAISDK.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const response = await client.files
+  .fileCreate({ file: fs.createReadStream('path/to/file') })
+  .catch(async (err) => {
+    if (err instanceof AcmeAISDK.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
-Error codes are as followed:
+Error codes are as follows:
 
 | Status Code | Error Type                 |
 | ----------- | -------------------------- |
@@ -168,6 +156,37 @@ await client.files.fileCreate({ file: fs.createReadStream('path/to/file') }, {
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the AcmeAISDK API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllFileFileslistResponses(params) {
+  const allFileFileslistResponses = [];
+  // Automatically fetches more pages as needed.
+  for await (const fileFileslistResponse of client.files.fileslist({ limit: 20, offset: 20 })) {
+    allFileFileslistResponses.push(fileFileslistResponse);
+  }
+  return allFileFileslistResponses;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.files.fileslist({ limit: 20, offset: 20 });
+for (const fileFileslistResponse of page.files) {
+  console.log(fileFileslistResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 
@@ -391,7 +410,7 @@ TypeScript >= 4.9 is supported.
 The following runtimes are supported:
 
 - Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)
-- Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
+- Node.js 20 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
 - Deno v1.28.0 or higher.
 - Bun 1.0 or later.
 - Cloudflare Workers.
