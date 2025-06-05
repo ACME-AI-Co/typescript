@@ -157,6 +157,37 @@ On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
 
+## Auto-pagination
+
+List methods in the AcmeAISDK API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllFileFileslistResponses(params) {
+  const allFileFileslistResponses = [];
+  // Automatically fetches more pages as needed.
+  for await (const fileFileslistResponse of client.files.fileslist({ limit: 20, offset: 20 })) {
+    allFileFileslistResponses.push(fileFileslistResponse);
+  }
+  return allFileFileslistResponses;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.files.fileslist({ limit: 20, offset: 20 });
+for (const fileFileslistResponse of page.files) {
+  console.log(fileFileslistResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
+
 ## Advanced Usage
 
 ### Accessing raw Response data (e.g., headers)
