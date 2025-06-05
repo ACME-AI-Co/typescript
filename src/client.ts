@@ -14,6 +14,8 @@ import * as Shims from './internal/shims';
 import * as Opts from './internal/request-options';
 import { VERSION } from './version';
 import * as Errors from './core/error';
+import * as Pagination from './core/pagination';
+import { AbstractPage, type OffsetParams, OffsetResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
@@ -27,6 +29,7 @@ import {
   FileFileSearchResponse,
   FileFileslistParams,
   FileFileslistResponse,
+  FileFileslistResponsesOffset,
   Files,
 } from './resources/files';
 import { readEnv } from './internal/utils/env';
@@ -467,6 +470,25 @@ export class AcmeAISDK {
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
 
+  getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
+    path: string,
+    Page: new (...args: any[]) => PageClass,
+    opts?: RequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    return this.requestAPIList(Page, { method: 'get', path, ...opts });
+  }
+
+  requestAPIList<
+    Item = unknown,
+    PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
+  >(
+    Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
+    options: FinalRequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    const request = this.makeRequest(options, null, undefined);
+    return new Pagination.PagePromise<PageClass, Item>(this as any as AcmeAISDK, request, Page);
+  }
+
   async fetchWithTimeout(
     url: RequestInfo,
     init: RequestInit | undefined,
@@ -705,11 +727,15 @@ AcmeAISDK.Files = Files;
 export declare namespace AcmeAISDK {
   export type RequestOptions = Opts.RequestOptions;
 
+  export import Offset = Pagination.Offset;
+  export { type OffsetParams as OffsetParams, type OffsetResponse as OffsetResponse };
+
   export {
     Files as Files,
     type FileFileCreateResponse as FileFileCreateResponse,
     type FileFileSearchResponse as FileFileSearchResponse,
     type FileFileslistResponse as FileFileslistResponse,
+    type FileFileslistResponsesOffset as FileFileslistResponsesOffset,
     type FileFileCreateParams as FileFileCreateParams,
     type FileFileSearchParams as FileFileSearchParams,
     type FileFileslistParams as FileFileslistParams,

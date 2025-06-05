@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
+import { Offset, type OffsetParams, PagePromise } from '../core/pagination';
 import { type Uploadable } from '../core/uploads';
 import { RequestOptions } from '../internal/request-options';
 import { multipartFormRequestOptions } from '../internal/uploads';
@@ -35,10 +36,12 @@ export class Files extends APIResource {
   fileslist(
     query: FileFileslistParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FileFileslistResponse> {
-    return this._client.get('/files/', { query, ...options });
+  ): PagePromise<FileFileslistResponsesOffset, FileFileslistResponse> {
+    return this._client.getAPIList('/files/', Offset<FileFileslistResponse>, { query, ...options });
   }
 }
+
+export type FileFileslistResponsesOffset = Offset<FileFileslistResponse>;
 
 export interface FileFileCreateResponse {
   /**
@@ -181,61 +184,40 @@ export namespace FileFileSearchResponse {
 }
 
 export interface FileFileslistResponse {
-  files?: Array<FileFileslistResponse.File>;
+  /**
+   * Time processing was completed (if applicable)
+   */
+  completion_time?: string;
 
   /**
-   * Maximum number of files returned
+   * Error message (if status is 'failed')
    */
-  limit?: number;
+  error?: string;
 
   /**
-   * Number of files skipped
+   * Unique identifier for the file
    */
-  offset?: number;
+  file_id?: string;
 
   /**
-   * Total number of files matching the filter
+   * Size of the file in bytes
    */
-  total?: number;
-}
+  file_size?: number;
 
-export namespace FileFileslistResponse {
-  export interface File {
-    /**
-     * Time processing was completed (if applicable)
-     */
-    completion_time?: string;
+  /**
+   * Original name of the file
+   */
+  filename?: string;
 
-    /**
-     * Error message (if status is 'failed')
-     */
-    error?: string;
+  /**
+   * Current processing status
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
 
-    /**
-     * Unique identifier for the file
-     */
-    file_id?: string;
-
-    /**
-     * Size of the file in bytes
-     */
-    file_size?: number;
-
-    /**
-     * Original name of the file
-     */
-    filename?: string;
-
-    /**
-     * Current processing status
-     */
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-    /**
-     * Time the file was uploaded
-     */
-    upload_time?: string;
-  }
+  /**
+   * Time the file was uploaded
+   */
+  upload_time?: string;
 }
 
 export interface FileFileCreateParams {
@@ -288,17 +270,7 @@ export interface FileFileSearchParams {
   max_results?: number;
 }
 
-export interface FileFileslistParams {
-  /**
-   * Maximum number of files to return
-   */
-  limit?: number;
-
-  /**
-   * Number of files to skip
-   */
-  offset?: number;
-
+export interface FileFileslistParams extends OffsetParams {
   /**
    * Field to sort by
    */
@@ -320,6 +292,7 @@ export declare namespace Files {
     type FileFileCreateResponse as FileFileCreateResponse,
     type FileFileSearchResponse as FileFileSearchResponse,
     type FileFileslistResponse as FileFileslistResponse,
+    type FileFileslistResponsesOffset as FileFileslistResponsesOffset,
     type FileFileCreateParams as FileFileCreateParams,
     type FileFileSearchParams as FileFileSearchParams,
     type FileFileslistParams as FileFileslistParams,
