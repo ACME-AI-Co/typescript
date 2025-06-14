@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-06-14)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/ACME-AI-Co/typescript/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Bug Fixes
+
+* publish script — handle NPM errors correctly ([65fdda9](https://github.com/ACME-AI-Co/typescript/commit/65fdda965d6905026c8d03dc90da5a91ba5dcb5d))
+
+
+### Chores
+
+* avoid type error in certain environments ([2fd892d](https://github.com/ACME-AI-Co/typescript/commit/2fd892d312ee6fe7c51922e2893d9a74bbe26d50))
+* **internal:** add pure annotations, make base APIResource abstract ([2fa520e](https://github.com/ACME-AI-Co/typescript/commit/2fa520e02d6cdb0be31f21ce6f8f3c9dccd95d83))
+
 ## 0.1.0-alpha.2 (2025-06-05)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/ACME-AI-Co/typescript/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
