@@ -1,6 +1,6 @@
 # Acme AI SDK TypeScript API Library
 
-[![NPM version](https://img.shields.io/npm/v/acme-ai-sdk.svg)](https://npmjs.org/package/acme-ai-sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/acme-ai-sdk)
+[![NPM version](<https://img.shields.io/npm/v/acme-ai-sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/acme-ai-sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/acme-ai-sdk)
 
 This library provides convenient access to the Acme AI SDK REST API from server-side TypeScript or JavaScript.
 
