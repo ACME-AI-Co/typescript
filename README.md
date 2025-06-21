@@ -15,7 +15,7 @@ npm install git+ssh://git@github.com:ACME-AI-Co/typescript.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npm install acme-ai-sdk`
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install acme-ai-sdk`
 
 ## Usage
 
