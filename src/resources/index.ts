@@ -8,5 +8,4 @@ export {
   type FileFileCreateParams,
   type FileFileSearchParams,
   type FileFileslistParams,
-  type FileFileslistResponsesOffset,
 } from './files';

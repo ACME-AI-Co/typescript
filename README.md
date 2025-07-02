@@ -29,9 +29,13 @@ const client = new AcmeAISDK({
   bearerToken: process.env['ACME_AI_SDK_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-const response = await client.files.fileCreate({ file: fs.createReadStream('path/to/file') });
+async function main() {
+  const response = await client.files.fileCreate({ file: fs.createReadStream('path/to/file') });
 
-console.log(response.file_id);
+  console.log(response.file_id);
+}
+
+main();
 ```
 
 ### Request & Response types
@@ -46,8 +50,12 @@ const client = new AcmeAISDK({
   bearerToken: process.env['ACME_AI_SDK_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-const params: AcmeAISDK.FileFileCreateParams = { file: fs.createReadStream('path/to/file') };
-const response: AcmeAISDK.FileFileCreateResponse = await client.files.fileCreate(params);
+async function main() {
+  const params: AcmeAISDK.FileFileCreateParams = { file: fs.createReadStream('path/to/file') };
+  const response: AcmeAISDK.FileFileCreateResponse = await client.files.fileCreate(params);
+}
+
+main();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -89,17 +97,21 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.files
-  .fileCreate({ file: fs.createReadStream('path/to/file') })
-  .catch(async (err) => {
-    if (err instanceof AcmeAISDK.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+async function main() {
+  const response = await client.files
+    .fileCreate({ file: fs.createReadStream('path/to/file') })
+    .catch(async (err) => {
+      if (err instanceof AcmeAISDK.APIError) {
+        console.log(err.status); // 400
+        console.log(err.name); // BadRequestError
+        console.log(err.headers); // {server: 'nginx', ...}
+      } else {
+        throw err;
+      }
+    });
+}
+
+main();
 ```
 
 Error codes are as follows:
