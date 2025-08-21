@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-08-21)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/ACME-AI-Co/typescript/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Features
+
+* **client:** add support for endpoint-specific base URLs ([7762bed](https://github.com/ACME-AI-Co/typescript/commit/7762bedb5a72e4110afd978593b4b0746fd8e426))
+
+
+### Bug Fixes
+
+* **client:** explicitly copy fetch in withOptions ([36ac9f2](https://github.com/ACME-AI-Co/typescript/commit/36ac9f2ec62a085cd15b35ec770cade2baa48968))
+* **client:** get fetchOptions type more reliably ([c12d777](https://github.com/ACME-AI-Co/typescript/commit/c12d777ca5c9e08baf26c6035c031837d4d8060a))
+* publish script — handle NPM errors correctly ([65fdda9](https://github.com/ACME-AI-Co/typescript/commit/65fdda965d6905026c8d03dc90da5a91ba5dcb5d))
+
+
+### Chores
+
+* add docs to RequestOptions type ([7c78f64](https://github.com/ACME-AI-Co/typescript/commit/7c78f64b6b71ac975222e2c77ea5f54597ece530))
+* avoid type error in certain environments ([2fd892d](https://github.com/ACME-AI-Co/typescript/commit/2fd892d312ee6fe7c51922e2893d9a74bbe26d50))
+* change publish docs url ([b695b0a](https://github.com/ACME-AI-Co/typescript/commit/b695b0a1048ffa69531576c5869589e3d1c0b2f3))
+* **ci:** enable for pull requests ([daced05](https://github.com/ACME-AI-Co/typescript/commit/daced0505a3b86a886b82d694d864784d83eec6b))
+* **ci:** only run for pushes and fork pull requests ([1a5b0ce](https://github.com/ACME-AI-Co/typescript/commit/1a5b0ced7463ac2f631f38d2d5036699489db4c4))
+* **client:** improve path param validation ([e69a3ea](https://github.com/ACME-AI-Co/typescript/commit/e69a3ea88317d8ff096c72f9f198c617dbdd91ad))
+* **client:** refactor imports ([30e5a90](https://github.com/ACME-AI-Co/typescript/commit/30e5a90200e0795e1b086eb2b83296d8110cc6df))
+* **internal:** add pure annotations, make base APIResource abstract ([2fa520e](https://github.com/ACME-AI-Co/typescript/commit/2fa520e02d6cdb0be31f21ce6f8f3c9dccd95d83))
+* **readme:** update badges ([de64a7a](https://github.com/ACME-AI-Co/typescript/commit/de64a7ab27460ebfb96ca7611cfd36b3668ec89b))
+* **readme:** use better example snippet for undocumented params ([82aee82](https://github.com/ACME-AI-Co/typescript/commit/82aee82e0da55f709c936ea168901c7183ab83f4))
+
 ## 0.1.0-alpha.2 (2025-06-05)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/ACME-AI-Co/typescript/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
